@@ -4,6 +4,7 @@
 #define ROWS 3 // no of rows of the matrix
 
 void print_matrix(double *row_ptrs[]);
+void swap_rows(double *row_ptrs[], int row_a_index, int row_b_index);
 
 main(){
 
@@ -35,5 +36,15 @@ void print_matrix(double *row_ptrs[]){
         }
         printf("\n");
     }
+
+}
+
+void swap_rows(double *row_ptrs[], int row_a_index, int row_b_index){
+
+    double *temp_ptr;
+
+    temp_ptr = *(row_ptrs + row_a_index);
+    *(row_ptrs + row_a_index) = *(row_ptrs + row_b_index);
+    *(row_ptrs + row_b_index) = temp_ptr;
 
 }
