@@ -26,9 +26,12 @@ void print_matrix(double *row_ptrs[]){
 
     int i, j;
 
+    double *temp_ptr; // temporary pointer to a row
+
     for(i = 0; i < ROWS; i++, row_ptrs++){
-        for(j = 0; j < COLUMNS; j++, (*row_ptrs)++){
-            printf("%f ", **row_ptrs);
+        temp_ptr = *row_ptrs;
+        for(j = 0; j < COLUMNS; j++, temp_ptr++){
+            printf("%f ", *temp_ptr);
         }
         printf("\n");
     }
