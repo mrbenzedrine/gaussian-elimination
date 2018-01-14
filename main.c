@@ -28,10 +28,11 @@ void print_matrix(double *row_ptrs[]){
 
     for(i = 0; i < ROWS; i++){
         for(j = 0; j < COLUMNS; j++){
-            printf("%f ", *row_ptrs[i]);
-            row_ptrs[i]++;
+            printf("%f ", **row_ptrs);
+            (*row_ptrs)++;
         }
         printf("\n");
+        row_ptrs++;
     }
 
 }
