@@ -26,13 +26,11 @@ void print_matrix(double *row_ptrs[]){
 
     int i, j;
 
-    for(i = 0; i < ROWS; i++){
-        for(j = 0; j < COLUMNS; j++){
+    for(i = 0; i < ROWS; i++, row_ptrs++){
+        for(j = 0; j < COLUMNS; j++, (*row_ptrs)++){
             printf("%f ", **row_ptrs);
-            (*row_ptrs)++;
         }
         printf("\n");
-        row_ptrs++;
     }
 
 }
