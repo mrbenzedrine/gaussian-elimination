@@ -3,6 +3,8 @@
 #define COLUMNS 3 // no of columns of the matrix
 #define ROWS 3 // no of rows of the matrix
 
+void print_matrix(double *row_ptrs[]);
+
 main(){
 
     // work with a hard coded matrix for now
@@ -17,5 +19,19 @@ main(){
     row_ptrs[2] = &matrix_values[6];
 
     return 0;
+
+}
+
+void print_matrix(double *row_ptrs[]){
+
+    int i, j;
+
+    for(i = 0; i < ROWS; i++){
+        for(j = 0; j < COLUMNS; j++){
+            printf("%f ", *row_ptrs[i]);
+            row_ptrs[i]++;
+        }
+        printf("\n");
+    }
 
 }
