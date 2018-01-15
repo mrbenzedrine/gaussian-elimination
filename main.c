@@ -5,7 +5,7 @@
 
 void print_matrix(double *row_ptrs[]);
 void swap_rows(double *row_ptrs[], int row_a_index, int row_b_index);
-void subtract_rows(double *row_ptrs[], int row_a_index, int row_b_index, double multiplier);
+void subtract_rows(double *row_ptrs[], int row_a_index, int row_b_index, double multiplier, int start_column);
 
 main(){
 
@@ -50,13 +50,13 @@ void swap_rows(double *row_ptrs[], int row_a_index, int row_b_index){
 
 }
 
-// subtracts multiplier * row_b from row_a
-void subtract_rows(double *row_ptrs[], int row_a_index, int row_b_index, double multiplier){
+// subtracts multiplier * row_b from row_a starting at the column number start_column
+void subtract_rows(double *row_ptrs[], int row_a_index, int row_b_index, double multiplier, int start_column){
 
     int i;
     double *temp_row_a_ptr, *temp_row_b_ptr;
-    temp_row_a_ptr = *(row_ptrs + row_a_index);
-    temp_row_b_ptr = *(row_ptrs + row_b_index);
+    temp_row_a_ptr = *(row_ptrs + row_a_index) + start_column;
+    temp_row_b_ptr = *(row_ptrs + row_b_index) + start_column;
 
     for(i = 0; i < COLUMNS; i++, temp_row_a_ptr++, temp_row_b_ptr++){
         *temp_row_a_ptr -= multiplier * *temp_row_b_ptr;
