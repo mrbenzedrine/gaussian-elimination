@@ -20,6 +20,25 @@ main(){
     row_ptrs[1] = &matrix_values[3];
     row_ptrs[2] = &matrix_values[6];
 
+    // start elimination
+
+    int i, j, k;
+    double pivot, multiplier;
+    double *pivot_row_ptr, *eliminate_row_ptr;
+
+    for(k = 0; k < ROWS - 1; k++){
+        pivot_row_ptr = row_ptrs[k];
+        pivot = *(pivot_row_ptr + k);
+        for(i = k + 1; i < ROWS; i++){
+            eliminate_row_ptr = row_ptrs[i];
+            multiplier = *(eliminate_row_ptr + k) / pivot;
+            subtract_rows(row_ptrs, i, k, multiplier, k);
+        }
+    }
+
+    printf("The eliminated matrix is:\n");
+    print_matrix(row_ptrs);
+
     return 0;
 
 }
