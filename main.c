@@ -8,6 +8,7 @@ void print_matrix(double *row_ptrs[]);
 void swap_rows(double *row_ptrs[], int row_a_index, int row_b_index);
 void subtract_rows(double *row_ptrs[], int row_a_index, int row_b_index, double multiplier, int start_column);
 int perform_partial_pivoting(double *row_ptrs[], double abs_pivot_value, int pivot_row_index, int pivot_column_index);
+void backward_substitution(double *row_ptrs[], double *solution_vector);
 
 main(){
 
@@ -48,6 +49,18 @@ main(){
 
     printf("The eliminated matrix is:\n");
     print_matrix(row_ptrs);
+
+    // perform backward substitution to get the solution vector
+
+    double solution_vector[COLUMNS - 1];
+    int l;
+
+    backward_substitution(row_ptrs, solution_vector);
+
+    printf("The solution vector is:\n");
+    for(l = 0; l < ROWS; l++){
+        printf("%f\n", solution_vector[l]);
+    }
 
     return 0;
 
@@ -112,5 +125,47 @@ int perform_partial_pivoting(double *row_ptrs[], double abs_pivot_value, int piv
     }
 
     return row_index_of_largest_pivot;
+
+}
+
+void backward_substitution(double *row_ptrs[], double *solution_vector){
+
+    int i, j;
+    double *temp_row_ptr;
+    double known_values_sum, coefficient_of_unknown;
+
+    // offset to start at the last row rather than the first row
+    row_ptrs += ROWS - 1;
+    temp_row_ptr = *row_ptrs;
+
+    // can calculate the last entry of the solution vector right away
+    *(solution_vector + ROWS - 1) = *(temp_row_ptr + COLUMNS - 2) / *(temp_row_ptr + COLUMNS - 1);
+
+    // now decrement row_ptrs by 1 since we want to start the back substitution on
+    // the next row up
+    row_ptrs -= 1;
+
+    for(i = ROWS - 2; i > -1; i--, row_ptrs--){
+        // this is redundant for the first iteration but for subsequent
+        // iterations it's necessary to re-set temp_row_ptr
+        temp_row_ptr = *row_ptrs;
+
+        // save the coefficient of the unknown
+        coefficient_of_unknown = *(temp_row_ptr + i);
+
+        // now offset temp_row_ptr to point at the beginning of the known
+        // values
+        temp_row_ptr += i + 1;
+        known_values_sum = 0;
+
+        for(j = i + 1; j < COLUMNS - 1; j++, temp_row_ptr++){
+            known_values_sum += *temp_row_ptr * *(solution_vector + j);
+        }
+        // set the appropriate entry of solution_vector
+
+        // no need to increment temp_row_ptr once more to get to the RHS entry
+        // since that was done before breaking out of the above loop
+        *(solution_vector + i) = (*temp_row_ptr - known_values_sum) / coefficient_of_unknown;
+    }
 
 }
